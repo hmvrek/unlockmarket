@@ -11,6 +11,7 @@ const productForm = document.querySelector('#product-form')
 const editMessage = document.querySelector('#edit-message')
 const cancelEdit = document.querySelector('#cancel-edit')
 const statuses = { new: 'Nowe', confirmed: 'Potwierdzone', completed: 'Zrealizowane', cancelled: 'Anulowane' }
+const paymentStatuses = { unpaid: 'Oczekuje na płatność', paid: 'Opłacone', failed: 'Płatność nieudana', expired: 'Sesja wygasła' }
 const dateFormat = new Intl.DateTimeFormat('pl-PL', { dateStyle: 'medium', timeStyle: 'short' })
 let callback
 let editing
@@ -139,6 +140,7 @@ function editProduct(product) {
   productForm.elements.category.value = product.category
   productForm.elements.price.value = (product.priceGrosz / 100).toFixed(2).replace('.', ',')
   productForm.elements.published.checked = product.published
+  productForm.elements.codes.value = ''
   document.querySelector('#edit-title').textContent = 'Edytuj produkt'
   cancelEdit.hidden = false
   editMessage.textContent = ''
@@ -160,12 +162,19 @@ productForm.addEventListener('submit', (event) => {
     const priceGrosz = Math.round(Number(price.replace(',', '.')) * 100)
     editMessage.textContent = 'Zapisywanie produktu…'
     try {
-      await api(editing ? `/api/admin/products/${editing}` : '/api/admin/products', {
+      const saved = await api(editing ? `/api/admin/products/${editing}` : '/api/admin/products', {
         method: editing ? 'PATCH' : 'POST',
         body: { name: data.get('name'), description: data.get('description'), category: data.get('category'), priceGrosz, published: data.has('published') },
       })
+      editing = saved.id
+      const codes = data.get('codes').trim()
+      let inventoryMessage = ''
+      if (codes) {
+        const inventory = await api(`/api/admin/products/${saved.id}/codes`, { method: 'POST', body: { codes } })
+        inventoryMessage = ` Dodano ${inventory.added} szt.${inventory.skipped ? `; ${inventory.skipped} duplikatów pominięto.` : '.'}`
+      }
       resetEditor()
-      editMessage.textContent = data.has('published') ? 'Produkt zapisany i widoczny w sklepie.' : 'Produkt zapisany jako szkic.'
+      editMessage.textContent = `${data.has('published') ? 'Produkt zapisany i widoczny w sklepie.' : 'Produkt zapisany jako szkic.'}${inventoryMessage}`
       await productsList.load(true)
     } catch (error) {
       if (!isAuthError(error)) editMessage.textContent = error.message
@@ -215,7 +224,8 @@ const productsList = paginated({
     const row = element('article', undefined, 'record product-record')
     const details = element('div')
     details.append(element('h3', product.name), element('p', `${categories[product.category]} · ${money(product.priceGrosz)}`),
-      element('small', product.published ? 'Opublikowany' : 'Szkic', product.published ? 'badge active' : 'badge'))
+      element('small', product.published ? 'Opublikowany' : 'Szkic', product.published ? 'badge active' : 'badge'),
+      element('small', `${product.availableCodes} kodów w magazynie`, 'inventory-count'))
     const edit = element('button', 'Edytuj', 'button button-outline')
     edit.setAttribute('aria-label', `Edytuj: ${product.name}`)
     edit.addEventListener('click', () => editProduct(product))
@@ -235,7 +245,8 @@ const ordersList = paginated({
     row.append(contact)
     const items = element('ul')
     for (const item of order.items) items.append(element('li', `${item.quantity} × ${item.name} (${money(item.priceGrosz)} za szt.)`))
-    row.append(items, element('strong', `Razem: ${money(order.totalGrosz)}`))
+    row.append(items, element('strong', `Razem: ${money(order.totalGrosz)}`),
+      element('p', `Płatność: ${paymentStatuses[order.paymentStatus] ?? 'Nieznany status'}`, 'fine-print'))
     const form = element('form', undefined, 'order-actions')
     const label = element('label', undefined, 'field')
     const select = element('select')

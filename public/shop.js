@@ -27,17 +27,24 @@ function displayProduct(product) {
   fragment.querySelector('h3').textContent = product.name
   fragment.querySelector('.product-description').textContent = product.description
   fragment.querySelector('.price').textContent = money(product.priceGrosz)
+  const availableCodes = Number(product.availableCodes) || 0
+  const availability = fragment.querySelector('.availability')
+  availability.textContent = availableCodes ? 'Dostępny' : 'Wyprzedany'
+  availability.classList.toggle('sold-out', availableCodes === 0)
   const add = fragment.querySelector('.add')
-  add.setAttribute('aria-label', `Dodaj do koszyka: ${product.name}`)
+  add.disabled = availableCodes === 0
+  add.setAttribute('aria-label', availableCodes ? `Dodaj do koszyka: ${product.name}` : `${product.name} — brak w magazynie`)
   add.addEventListener('click', () => {
     const count = cart.get(product.id)?.quantity ?? 0
-    if ((cart.size < 10 || count) && count < 10) {
+    if (count >= Math.min(10, availableCodes)) {
+      cartMessage.textContent = 'Brak wystarczającej liczby kodów w magazynie.'
+    } else if (cart.size < 10 || count) {
       cart.set(product.id, { ...product, quantity: count + 1 })
       orderId = undefined
       renderCart()
       cartMessage.textContent = `Dodano: ${product.name}.`
     } else {
-      cartMessage.textContent = 'Koszyk pomieści do 10 produktów w maksymalnie 10 sztukach każdy.'
+      cartMessage.textContent = 'Koszyk pomieści do 10 produktów w maksymalnie 10 sztukach każdego.'
     }
     if (!dialog.open) dialog.showModal()
   })
@@ -131,17 +138,17 @@ checkout.addEventListener('submit', async (event) => {
   checkout.elements.email.readOnly = true
   const data = new FormData(checkout)
   orderId ??= crypto.randomUUID()
-  cartMessage.textContent = 'Zapisywanie zamówienia…'
+  cartMessage.textContent = 'Przygotowywanie bezpiecznej płatności…'
   try {
-    const result = await api('/api/orders', {
+    const result = await api('/api/checkout', {
       method: 'POST',
-      body: { id: orderId, email: data.get('email'), website: data.get('website'), totalGrosz: total(), items: [...cart.values()].map(({ id, quantity }) => ({ id, quantity })) },
+      body: { id: orderId, email: data.get('email'), website: data.get('website'), items: [...cart.values()].map(({ id, quantity }) => ({ id, quantity })) },
     })
-    cart.clear()
-    checkout.reset()
-    orderId = undefined
-    renderCart()
-    cartMessage.textContent = `Zamówienie zapisane (${result.id.slice(0, 8)}). Sprzedawca skontaktuje się z Tobą. Nie pobrano opłaty.`
+    const checkoutUrl = new URL(result.url)
+    if (checkoutUrl.protocol !== 'https:' || checkoutUrl.hostname !== 'checkout.stripe.com') {
+      throw new Error('Nie udało się otworzyć bezpiecznej płatności. Spróbuj ponownie.')
+    }
+    window.location.assign(checkoutUrl.href)
   } catch (error) {
     if (error.status === 409) {
       orderId = undefined
@@ -157,4 +164,10 @@ checkout.addEventListener('submit', async (event) => {
 })
 
 renderCart()
-loadProducts()
+const paymentCancelled = new URLSearchParams(location.search).get('cancelled') === '1'
+loadProducts().finally(() => {
+  if (paymentCancelled) {
+    status.hidden = false
+    status.textContent = 'Płatność nie została zakończona. Nie pobrano opłaty — dodaj produkty ponownie, aby spróbować jeszcze raz.'
+  }
+})

@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="pl">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Potwierdzenie płatności i bezpieczny odbiór kodów z UnlockMarket.">
+    <meta name="theme-color" content="#10170f">
+    <title>Twoje zamówienie — UnlockMarket</title>
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+    <link rel="stylesheet" href="/styles.css">
+    <script type="module" src="/success.js"></script>
+  </head>
+  <body>
+    <header class="site-header frame admin-header">
+      <a class="wordmark" href="/"><img src="/favicon.svg" width="32" height="32" alt="">Unlock<span>Market</span></a>
+      <a class="button button-outline" href="/">Wróć do sklepu <span aria-hidden="true">↗</span></a>
+    </header>
+    <main class="frame success-main">
+      <section class="panel success-card" aria-labelledby="success-title">
+        <p class="eyebrow">UNLOCKMARKET / ZAMÓWIENIE</p>
+        <h1 id="success-title">Płatność i dostawa</h1>
+        <p class="notice" id="claim-status" role="status" aria-live="polite">Sprawdzanie płatności…</p>
+        <div id="claim-results" hidden>
+          <h2>Twoje kody dostępu</h2>
+          <p class="fine-print">Zapisz kody w bezpiecznym miejscu. Możesz je skopiować lub zaznaczyć.</p>
+          <ul class="code-list" id="code-list"></ul>
+        </div>
+        <button class="button button-primary" id="retry-claim" type="button" hidden>Sprawdź status ponownie</button>
+        <a class="button button-outline" href="/">Wróć do sklepu</a>
+      </section>
+    </main>
+    <footer class="site-footer frame"><span>UnlockMarket / Cyfrowe produkty</span><a href="/admin/">Panel administratora <span aria-hidden="true">↗</span></a></footer>
+  </body>
+</html>

@@ -1,2 +1,5 @@
 node_modules/
 public/assets/admin.js
+
+# Local Netlify folder
+.netlify

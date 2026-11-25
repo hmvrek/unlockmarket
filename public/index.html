@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="UnlockMarket — klucze, licencje i dodatki cyfrowe.">
+    <meta name="description" content="Kupuj klucze, licencje i dodatki cyfrowe w UnlockMarket. Bezpieczna płatność Stripe i natychmiastowa dostawa kodów.">
     <meta name="theme-color" content="#10170f">
     <title>UnlockMarket — sklep cyfrowy</title>
     <link rel="icon" href="/favicon.svg" type="image/svg+xml">
@@ -62,7 +62,7 @@
 
       <section class="guide section" id="zamowienia" aria-labelledby="guide-title">
         <div><p class="eyebrow">02 / REALIZACJA</p><h2 id="guide-title">Jak zamawiać?</h2></div>
-        <ol><li>Dodaj produkty do koszyka.</li><li>Podaj e-mail i wyślij zamówienie.</li><li>Sprzedawca skontaktuje się w sprawie płatności i dostawy cyfrowej. Strona nie pobiera opłat.</li></ol>
+        <ol><li>Dodaj dostępne produkty do koszyka.</li><li>Podaj e-mail potrzebny do płatności i potwierdzenia zamówienia.</li><li>Opłać zamówienie w bezpiecznym Stripe Checkout. Po potwierdzeniu płatności kody pojawią się na stronie.</li></ol>
       </section>
     </main>
 
@@ -74,16 +74,16 @@
       <p id="cart-message" class="message" role="status"></p>
       <form id="checkout" hidden>
         <p class="cart-total">Razem <strong id="cart-total"></strong></p>
-        <label class="field"><span>E-mail do kontaktu</span><input type="email" name="email" autocomplete="email" maxlength="254" required></label>
+        <label class="field"><span>E-mail do potwierdzenia płatności</span><input type="email" name="email" autocomplete="email" maxlength="254" required></label>
         <label class="trap" aria-hidden="true">Strona internetowa<input name="website" tabindex="-1" autocomplete="off"></label>
-        <p class="fine-print">E-mail zostanie użyty do kontaktu w sprawie tego zamówienia. Nie płacisz na stronie.</p>
-        <button class="button button-primary" type="submit">Wyślij zamówienie <span aria-hidden="true">↗</span></button>
+        <p class="fine-print">Płatność obsługuje Stripe. Dostępność metod, w tym BLIK, zależy od konfiguracji sklepu.</p>
+        <button class="button button-primary" type="submit">Przejdź do płatności <span aria-hidden="true">↗</span></button>
       </form>
     </dialog>
     <template id="product-card">
       <article class="product">
         <div class="product-art" aria-hidden="true"><span>UNLOCK / DIGITAL</span><svg viewBox="0 0 48 48" width="54" height="54" fill="none"><path d="M24 5a13 13 0 0 1 6 24.5L35 43H13l5-13.5A13 13 0 0 1 24 5Z" stroke="currentColor" stroke-width="2"/><path d="M24 12a6 6 0 0 1 3 11.2l3 12.8H18l3-12.8A6 6 0 0 1 24 12Z" fill="currentColor"/></svg><span>+</span></div>
-        <div class="product-body"><p class="eyebrow product-category"></p><h3></h3><p class="product-description"></p><div class="product-bottom"><strong class="price"></strong><button class="button button-outline add" type="button">Dodaj <span aria-hidden="true">+</span></button></div></div>
+        <div class="product-body"><p class="eyebrow product-category"></p><h3></h3><p class="product-description"></p><p class="availability"></p><div class="product-bottom"><strong class="price"></strong><button class="button button-outline add" type="button">Dodaj <span aria-hidden="true">+</span></button></div></div>
       </article>
     </template>
   </body>

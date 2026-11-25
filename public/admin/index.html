@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="robots" content="noindex">
     <meta name="theme-color" content="#10170f">
+    <meta name="description" content="Panel administracyjny UnlockMarket.">
     <title>Panel administratora — UnlockMarket</title>
     <link rel="icon" href="/favicon.svg" type="image/svg+xml">
     <link rel="stylesheet" href="/styles.css">
@@ -44,6 +45,8 @@
               <label class="field"><span>Opis</span><textarea name="description" rows="4" minlength="10" maxlength="1600" required></textarea></label>
               <label class="field"><span>Kategoria</span><select name="category"><option value="license">Klucze i licencje</option><option value="addon">Dodatki cyfrowe</option><option value="other">Inne</option></select></label>
               <label class="field"><span>Cena (PLN)</span><input name="price" inputmode="decimal" maxlength="7" placeholder="49,90" required></label>
+              <label class="field"><span>Kody aktywacyjne</span><textarea name="codes" rows="5" maxlength="131072" placeholder="Jeden kod w każdym wierszu"></textarea></label>
+              <p class="fine-print">Kody są przechowywane poufnie, nie są wyświetlane w panelu i zostaną przypisane dopiero po opłaceniu zamówienia.</p>
               <label class="check"><input type="checkbox" name="published"><span>Opublikuj w katalogu</span></label>
               <p class="fine-print">Dodawaj tylko produkty, które masz prawo sprzedawać. Nie wpisuj w opisie kluczy, haseł ani danych klientów.</p>
               <div class="actions"><button class="button button-primary" type="submit">Zapisz produkt</button><button class="button button-outline" id="cancel-edit" type="button" hidden>Anuluj edycję</button></div>
