@@ -3,12 +3,55 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>UnlockMarket</title>
+    <meta name="description" content="UnlockMarket isn’t available yet. Check back here for launch updates.">
+    <meta name="theme-color" content="#121a16">
+    <title>UnlockMarket — Coming soon</title>
+    <link rel="icon" href="favicon.svg" type="image/svg+xml">
+    <link rel="stylesheet" href="styles.css">
   </head>
   <body>
-    <main>
-      <h1>UnlockMarket</h1>
-      <p>The application is not available yet.</p>
+    <header class="site-header frame">
+      <div class="wordmark">
+        <img src="favicon.svg" width="36" height="36" alt="">
+        <span>UnlockMarket</span>
+      </div>
+    </header>
+
+    <main class="hero frame">
+      <div class="hero-copy">
+        <p class="status">Coming soon</p>
+        <h1>Not open <span>just yet.</span></h1>
+        <p class="intro">UnlockMarket isn’t available yet. Check back here to see when it opens.</p>
+      </div>
+
+      <div class="artwork" aria-hidden="true">
+        <svg class="keyhole" viewBox="0 0 420 420" focusable="false">
+          <defs>
+            <pattern id="grid" width="21" height="21" patternUnits="userSpaceOnUse">
+              <path d="M21 0H0v21" fill="none" stroke="currentColor" stroke-opacity=".18"/>
+            </pattern>
+            <path id="contour" d="M0-133a101 101 0 0 1 48 190l31 78H-79l31-78A101 101 0 0 1 0-133Z"/>
+          </defs>
+          <path d="M21 21h378v378H21z" fill="url(#grid)" stroke="currentColor" stroke-opacity=".35"/>
+          <circle cx="210" cy="210" r="168" fill="none" stroke="currentColor" stroke-opacity=".45"/>
+          <path d="M210 21v378M21 210h378" fill="none" stroke="currentColor" stroke-opacity=".42" stroke-dasharray="2 5"/>
+          <g transform="translate(210 210)" fill="none" stroke="currentColor">
+            <use href="#contour" stroke-width="2"/>
+            <use href="#contour" transform="scale(.88)" stroke-width="4"/>
+            <use href="#contour" transform="scale(.76)" stroke-width="7"/>
+            <use href="#contour" transform="scale(.64)" stroke-width="11"/>
+            <use href="#contour" transform="scale(.52)" stroke-width="17"/>
+            <use href="#contour" transform="scale(.40)" fill="currentColor" stroke-width="16"/>
+          </g>
+          <path d="M21 36V21h15m348 0h15v15m0 348v15h-15m-348 0H21v-15" fill="none" stroke="currentColor" stroke-width="2"/>
+        </svg>
+        <div class="artwork-caption"><span>Fig. 01</span><span>The keyhole</span></div>
+      </div>
     </main>
+
+    <footer class="site-footer frame">
+      <p>UnlockMarket</p>
+      <p>No launch date announced</p>
+    </footer>
   </body>
 </html>
