@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="pl">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="robots" content="noindex">
+    <meta name="theme-color" content="#10170f">
+    <title>Panel administratora — UnlockMarket</title>
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+    <link rel="stylesheet" href="/styles.css">
+    <script type="module" src="/assets/admin.js"></script>
+  </head>
+  <body>
+    <header class="site-header frame admin-header">
+      <a class="wordmark" href="/"><img src="/favicon.svg" width="32" height="32" alt="">Unlock<span>Market</span></a>
+      <a class="button button-outline" href="/">Sklep <span aria-hidden="true">↗</span></a>
+    </header>
+    <main class="frame admin-main">
+      <div class="section-heading"><div><p class="eyebrow">UNLOCKMARKET / ZARZĄDZANIE</p><h1>Panel administratora</h1></div><button class="button button-outline" id="sign-out" type="button" hidden>Wyloguj się</button></div>
+      <p class="notice" id="auth-message" role="status">Sprawdzanie sesji…</p>
+      <section class="panel login-panel" id="auth-panel" aria-label="Logowanie" hidden>
+        <form id="login">
+          <h2>Zaloguj się</h2>
+          <label class="field"><span>E-mail</span><input name="email" type="email" autocomplete="username" required></label>
+          <label class="field"><span>Hasło</span><input name="password" type="password" autocomplete="current-password" required></label>
+          <button class="button button-primary" type="submit">Zaloguj się <span aria-hidden="true">↗</span></button>
+          <button class="text-button" id="recover" type="button">Wyślij link do zmiany hasła</button>
+        </form>
+        <form id="set-password" hidden>
+          <h2>Ustaw hasło</h2>
+          <label class="field"><span>Nowe hasło</span><input name="password" type="password" autocomplete="new-password" minlength="12" required></label>
+          <p class="fine-print">Użyj co najmniej 12 znaków.</p>
+          <button class="button button-primary" type="submit">Zapisz hasło <span aria-hidden="true">↗</span></button>
+        </form>
+      </section>
+
+      <div id="dashboard" hidden>
+        <div class="admin-grid">
+          <section class="panel" id="editor" aria-labelledby="edit-title">
+            <p class="eyebrow">01 / EDYTOR</p>
+            <h2 id="edit-title">Nowy produkt</h2>
+            <form id="product-form">
+              <label class="field"><span>Nazwa</span><input name="name" minlength="2" maxlength="100" required></label>
+              <label class="field"><span>Opis</span><textarea name="description" rows="4" minlength="10" maxlength="1600" required></textarea></label>
+              <label class="field"><span>Kategoria</span><select name="category"><option value="license">Klucze i licencje</option><option value="addon">Dodatki cyfrowe</option><option value="other">Inne</option></select></label>
+              <label class="field"><span>Cena (PLN)</span><input name="price" inputmode="decimal" maxlength="7" placeholder="49,90" required></label>
+              <label class="check"><input type="checkbox" name="published"><span>Opublikuj w katalogu</span></label>
+              <p class="fine-print">Dodawaj tylko produkty, które masz prawo sprzedawać. Nie wpisuj w opisie kluczy, haseł ani danych klientów.</p>
+              <div class="actions"><button class="button button-primary" type="submit">Zapisz produkt</button><button class="button button-outline" id="cancel-edit" type="button" hidden>Anuluj edycję</button></div>
+              <p class="message" id="edit-message" role="status"></p>
+            </form>
+          </section>
+          <section class="panel" aria-labelledby="admin-products-title">
+            <p class="eyebrow">02 / OFERTA</p>
+            <h2 id="admin-products-title">Produkty</h2>
+            <p class="message" id="admin-products-message" role="status"></p>
+            <div class="record-list" id="admin-products"></div>
+            <button class="button button-outline more" id="more-products" type="button" hidden>Pokaż więcej</button>
+          </section>
+        </div>
+        <section class="panel order-panel" aria-labelledby="orders-title">
+          <div class="section-heading"><div><p class="eyebrow">03 / REALIZACJA</p><h2 id="orders-title">Zamówienia</h2></div><button class="button button-outline" id="refresh-orders" type="button">Odśwież</button></div>
+          <p class="fine-print">Kontakt, płatność i dostawa odbywają się poza sklepem. Zmiana statusu nie wysyła powiadomienia.</p>
+          <p class="message" id="orders-message" role="status"></p>
+          <div class="record-list" id="orders"></div>
+          <button class="button button-outline more" id="more-orders" type="button" hidden>Pokaż więcej</button>
+        </section>
+      </div>
+      <noscript><p>Włącz JavaScript, aby zalogować się do panelu.</p></noscript>
+    </main>
+    <footer class="site-footer frame"><span>UnlockMarket / Administracja</span></footer>
+  </body>
+</html>
